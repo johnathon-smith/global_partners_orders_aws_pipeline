@@ -1,0 +1,5 @@
+streamlit==1.45.1
+pandas==2.2.3
+altair==5.5.0
+deltalake==0.25.5
+pyarrow==19.0.1
