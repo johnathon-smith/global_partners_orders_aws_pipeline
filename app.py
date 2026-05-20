@@ -611,18 +611,34 @@ with tabs[4]:
 
         st.subheader("Revenue by Location")
 
+        filtered_locations["total_revenue"] = (
+            filtered_locations["total_revenue"]
+            .astype(str)
+            .str.replace("$", "", regex=False)
+            .str.replace(",", "", regex=False)
+            .astype(float)
+        )
+
         chart = (
             alt.Chart(filtered_locations.sort_values("revenue_rank"))
             .mark_bar()
             .encode(
-                x=alt.X("total_revenue:Q", title="Total Revenue"),
-                y=alt.Y("restaurant_id:N", title="Restaurant", sort="-x"),
+                x=alt.X(
+                    "total_revenue:Q", 
+                    title="Total Revenue",
+                    axis=alt.Axis(format="$,.2f")
+                ),
+                y=alt.Y(
+                    "restaurant_id:N", 
+                    title="Restaurant", 
+                    sort=top_locations["restaurant_id"].tolist()
+                ),
                 tooltip=[
                     "restaurant_id",
                     "revenue_rank",
-                    alt.Tooltip("total_revenue:Q", format=",.2f"),
-                    alt.Tooltip("avg_order_value:Q", format=",.2f"),
-                    alt.Tooltip("avg_orders_per_week:Q", format=",.2f"),
+                    alt.Tooltip("total_revenue:Q", format="$,.2f"),
+                    alt.Tooltip("avg_order_value:Q", format="$,.2f"),
+                    alt.Tooltip("avg_orders_per_week:Q", format="$,.2f"),
                 ],
             )
         )
