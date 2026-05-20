@@ -299,7 +299,7 @@ with tabs[0]:
                 alt.Chart(top_locations)
                 .mark_bar()
                 .encode(
-                    x=alt.X("total_revenue:Q", title="Total Revenue", axis=alt.Axis(format="$,.2f")),
+                    x=alt.X("total_revenue:Q", title="Total Revenue"),
                     y=alt.Y("restaurant_id:N", title="Restaurant", sort="-x"),
                     tooltip=["restaurant_id", alt.Tooltip("total_revenue:Q", title="Total Revenue", format="$,2f")],
                 )
