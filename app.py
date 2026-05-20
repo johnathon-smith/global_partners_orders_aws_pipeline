@@ -210,7 +210,23 @@ tabs = st.tabs(
 with tabs[0]:
     st.header("Executive Overview")
 
-    st.write(location_performance_df[["restaurant_id", "total_revenue", "avg_order_value"]].head(20))
+    top_locations = location_performance_df.copy()
+
+    st.write("Before conversion:")
+    st.write(top_locations[["restaurant_id", "total_revenue"]].head(10))
+    st.write(top_locations["total_revenue"].map(type).head(10))
+    
+    top_locations["total_revenue"] = (
+        top_locations["total_revenue"]
+        .astype(str)
+        .str.replace("$", "", regex=False)
+        .str.replace(",", "", regex=False)
+        .astype(float)
+    )
+    
+    st.write("After conversion:")
+    st.write(top_locations[["restaurant_id", "total_revenue"]].head(10))
+    st.write(top_locations.dtypes)
 
     metric_cols = st.columns(4)
 
