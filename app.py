@@ -91,6 +91,31 @@ def get_table_path(table_name: str) -> Optional[str]:
     return None
 
 
+def convert_decimal_columns_to_float(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert any pandas object columns containing decimal.Decimal values to float64.
+
+    This prevents Altair/Streamlit chart rendering issues because Altair does not
+    reliably handle Python Decimal objects.
+    """
+    if df.empty:
+        return df
+
+    df = df.copy()
+
+    for column in df.columns:
+        if df[column].dtype == "object":
+            non_null_values = df[column].dropna()
+
+            if not non_null_values.empty:
+                first_value = non_null_values.iloc[0]
+
+                if isinstance(first_value, Decimal):
+                    df[column] = df[column].astype(float)
+
+    return df
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def read_curated_delta_table(table_name: str) -> pd.DataFrame:
     """
@@ -107,7 +132,9 @@ def read_curated_delta_table(table_name: str) -> pd.DataFrame:
 
     try:
         delta_table = DeltaTable(table_path, storage_options=storage_options)
-        return delta_table.to_pandas()
+        df = delta_table.to_pandas()
+        df = convert_decimal_columns_to_float(df)
+        return df
     except Exception as exc:
         st.error(f"Unable to read `{table_name}` from `{table_path}`.")
         st.exception(exc)
@@ -284,14 +311,6 @@ with tabs[0]:
                 .copy()
                 .sort_values("total_revenue", ascending=False)
                 .head(10)
-            )
-
-            top_locations["total_revenue"] = (
-                top_locations["total_revenue"]
-                .astype(str)
-                .str.replace("$", "", regex=False)
-                .str.replace(",", "", regex=False)
-                .astype(float)
             )
 
             chart = (
@@ -610,10 +629,6 @@ with tabs[4]:
         col4.metric("Avg Orders / Week", f"{location_performance_df['avg_orders_per_week'].mean():,.2f}")
 
         st.subheader("Revenue by Location")
-
-        filtered_locations["total_revenue"] = filtered_locations["total_revenue"].astype(float)
-        filtered_locations["avg_order_value"] = filtered_locations["avg_order_value"].astype(float)
-        filtered_locations["avg_orders_per_week"] = filtered_locations["avg_orders_per_week"].astype(float)
 
         chart = (
             alt.Chart(filtered_locations.sort_values("revenue_rank"))
