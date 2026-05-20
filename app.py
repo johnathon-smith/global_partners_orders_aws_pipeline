@@ -210,6 +210,8 @@ tabs = st.tabs(
 with tabs[0]:
     st.header("Executive Overview")
 
+    st.write(location_performance_df[["restaurant_id", "total_revenue", "avg_order_value"]].head(20))
+
     metric_cols = st.columns(4)
 
     total_customers = (
