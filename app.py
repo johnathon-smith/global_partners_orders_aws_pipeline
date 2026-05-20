@@ -298,7 +298,11 @@ with tabs[0]:
                 alt.Chart(top_locations)
                 .mark_bar()
                 .encode(
-                    x="total_revenue:Q",
+                    x=alt.X(
+                        "total_revenue:Q",
+                        title="Total Revenue",
+                        axis=alt.Axis(format="$,.2f")
+                    ),
                     y=alt.Y(
                         "restaurant_id:N",
                         title="Restaurant",
