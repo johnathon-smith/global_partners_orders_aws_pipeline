@@ -294,18 +294,13 @@ with tabs[0]:
                 .astype(float)
             )
 
-            st.dataframe(top_locations[["restaurant_id", "total_revenue"]])
-            st.bar_chart(
-                top_locations.set_index("restaurant_id")["total_revenue"]
-            )
-
             chart = (
                 alt.Chart(top_locations)
                 .mark_bar()
                 .encode(
-                    x=alt.X("total_revenue:Q", title="Total Revenue", axis=alt.Axis(format=",.2f")),
-                    y=alt.Y("restaurant_id:N", title="Restaurant", sort=top_locations["restaurant_id"].tolist()),
-                    tooltip=["restaurant_id", alt.Tooltip("total_revenue:Q", title="Total Revenue", format=",2f")],
+                    x="total_revenue:Q",
+                    y="restaurant_id:N",
+                    tooltip=["restaurant_id:N", "total_revenue:Q"]
                 )
             )
             st.altair_chart(chart, use_container_width=True)
