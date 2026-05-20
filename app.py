@@ -611,13 +611,9 @@ with tabs[4]:
 
         st.subheader("Revenue by Location")
 
-        filtered_locations["total_revenue"] = (
-            filtered_locations["total_revenue"]
-            .astype(str)
-            .str.replace("$", "", regex=False)
-            .str.replace(",", "", regex=False)
-            .astype(float)
-        )
+        filtered_locations["total_revenue"] = filtered_locations["total_revenue"].astype(float)
+        filtered_locations["avg_order_value"] = filtered_locations["avg_order_value"].astype(float)
+        filtered_locations["avg_orders_per_week"] = filtered_locations["avg_orders_per_week"].astype(float)
 
         chart = (
             alt.Chart(filtered_locations.sort_values("revenue_rank"))
