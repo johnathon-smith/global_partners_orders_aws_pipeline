@@ -303,6 +303,7 @@ with tabs[0]:
                         "restaurant_id:N",
                         title="Restaurant",
                         sort=top_locations["restaurant_id"].tolist()
+                    ),
                     tooltip=["restaurant_id:N", "total_revenue:Q"]
                 )
             )
