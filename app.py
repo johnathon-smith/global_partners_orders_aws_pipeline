@@ -638,7 +638,7 @@ with tabs[4]:
                     "revenue_rank",
                     alt.Tooltip("total_revenue:Q", format="$,.2f"),
                     alt.Tooltip("avg_order_value:Q", format="$,.2f"),
-                    alt.Tooltip("avg_orders_per_week:Q", format="$,.2f"),
+                    alt.Tooltip("avg_orders_per_week:Q", format=",.2f"),
                 ],
             )
         )
