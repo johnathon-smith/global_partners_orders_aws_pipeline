@@ -299,7 +299,10 @@ with tabs[0]:
                 .mark_bar()
                 .encode(
                     x="total_revenue:Q",
-                    y="restaurant_id:N",
+                    y=alt.Y(
+                        "restaurant_id:N",
+                        title="Restaurant",
+                        sort=top_locations["restaurant_id"].tolist()
                     tooltip=["restaurant_id:N", "total_revenue:Q"]
                 )
             )
