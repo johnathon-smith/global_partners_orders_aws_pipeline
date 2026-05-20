@@ -1,5 +1,6 @@
 import os
 from typing import Dict, Optional
+from decimal import Decimal
 
 import altair as alt
 import pandas as pd
