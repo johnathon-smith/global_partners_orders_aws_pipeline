@@ -304,7 +304,14 @@ with tabs[0]:
                         title="Restaurant",
                         sort=top_locations["restaurant_id"].tolist()
                     ),
-                    tooltip=["restaurant_id:N", "total_revenue:Q"]
+                    tooltip=[
+                        alt.Tooltip("restaurant_id:N", title="Restaurant"),
+                        alt.Tooltip(
+                            "total_revenue:Q",
+                            title="Total Revenue",
+                            format="$,.2f"
+                        ),
+                    ],
                 )
             )
             st.altair_chart(chart, use_container_width=True)
