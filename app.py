@@ -210,24 +210,6 @@ tabs = st.tabs(
 with tabs[0]:
     st.header("Executive Overview")
 
-    top_locations = location_performance_df.copy()
-
-    st.write("Before conversion:")
-    st.write(top_locations[["restaurant_id", "total_revenue"]].head(10))
-    st.write(top_locations["total_revenue"].map(type).head(10))
-    
-    top_locations["total_revenue"] = (
-        top_locations["total_revenue"]
-        .astype(str)
-        .str.replace("$", "", regex=False)
-        .str.replace(",", "", regex=False)
-        .astype(float)
-    )
-    
-    st.write("After conversion:")
-    st.write(top_locations[["restaurant_id", "total_revenue"]].head(10))
-    st.write(top_locations.dtypes)
-
     metric_cols = st.columns(4)
 
     total_customers = (
@@ -300,22 +282,23 @@ with tabs[0]:
             top_locations = (
                 location_performance_df
                 .copy()
-                .assign(
-                    total_revenue=lambda df: pd.to_numeric(
-                        df["total_revenue"],
-                        errors="coerce"
-                    )
-                )
-                .dropna(subset=["total_revenue"])
                 .sort_values("total_revenue", ascending=False)
                 .head(10)
+            )
+
+            top_locations["total_revenue"] = (
+                top_locations["total_revenue"]
+                .astype(str)
+                .str.replace("$", "", regex=False)
+                .str.replace(",", "", regex=False)
+                .astype(float)
             )
 
             chart = (
                 alt.Chart(top_locations)
                 .mark_bar()
                 .encode(
-                    x=alt.X("total_revenue:Q", title="Total Revenue"),
+                    x=alt.X("total_revenue:Q", title="Total Revenue", axis=alt.Axis(format=",.2f"),
                     y=alt.Y("restaurant_id:N", title="Restaurant", sort="-x"),
                     tooltip=["restaurant_id", alt.Tooltip("total_revenue:Q", title="Total Revenue", format="$,2f")],
                 )
