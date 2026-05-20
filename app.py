@@ -293,7 +293,7 @@ with tabs[0]:
                 .encode(
                     x=alt.X("total_revenue:Q", title="Total Revenue"),
                     y=alt.Y("restaurant_id:N", title="Restaurant", sort="-x"),
-                    tooltip=["restaurant_id", alt.Tooltip("total_revenue:Q", format=",.2f")],
+                    tooltip=["restaurant_id", alt.Tooltip("total_revenue:Q")],
                 )
             )
             st.altair_chart(chart, use_container_width=True)
