@@ -26,7 +26,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  GLUE_SCRIPT_BUCKET: global-partners-data-bucket-001
+  GLUE_SCRIPT_BUCKET: your-data-lake-bucket-name
   GLUE_SCRIPT_PREFIX: scripts/glue_jobs
 
 jobs:
@@ -53,30 +53,30 @@ jobs:
           ruff check glue_jobs streamlit_app
 
   deploy-glue-scripts:
-  name: Deploy Glue scripts to S3
-  runs-on: ubuntu-latest
-  needs: validate-python
+    name: Deploy Glue scripts to S3
+    runs-on: ubuntu-latest
+    needs: validate-python
 
-  if: |
-    always() &&
-    (
-      (github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.validate-python.result == 'success') ||
-      (github.event_name == 'workflow_dispatch' && inputs.force_deploy == 'true')
-    )
+    if: |
+      always() &&
+      (
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.validate-python.result == 'success') ||
+        (github.event_name == 'workflow_dispatch' && inputs.force_deploy == 'true')
+      )
 
-  steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: arn:aws:iam::778277577883:role/github-actions-glue-deploy-role
-        aws-region: ${{ env.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::778277577883:role/github-actions-glue-deploy-role
+          aws-region: ${{ env.AWS_REGION }}
 
-    - name: Upload Glue job scripts to S3
-      run: |
-        aws s3 sync glue_jobs/ s3://${GLUE_SCRIPT_BUCKET}/${GLUE_SCRIPT_PREFIX}/ \
-          --delete \
-          --exclude "__pycache__/*" \
-          --exclude "*.pyc"
+      - name: Upload Glue job scripts to S3
+        run: |
+          aws s3 sync glue_jobs/ s3://${GLUE_SCRIPT_BUCKET}/${GLUE_SCRIPT_PREFIX}/ \
+            --delete \
+            --exclude "__pycache__/*" \
+            --exclude "*.pyc"
