@@ -5,6 +5,7 @@ line-length = 120
 select = ["E", "F"]
 ignore = [
   "E402",  # Module level import not at top of file
+  "E501",  # Line too long
   "E712",  # Avoid equality comparisons to True
   "F401",  # Imported but unused
   "F403",  # Import * used, unable to detect undefined names
