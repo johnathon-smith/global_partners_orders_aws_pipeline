@@ -207,7 +207,7 @@ else:
     affected_user_ids = incoming_changes.select("user_id").distinct()
     
     current_as_events_for_affected_users = (
-        current_as_events_for_affected_users.join(affected_user_ids, on="user_id", how="inner")
+        current_as_events.join(affected_user_ids, on="user_id", how="inner")
     )
     
     combined_events = (
@@ -239,7 +239,7 @@ else:
     version_window = Window.partitionBy("user_id").orderBy("effective_start_date")
     
     new_versions_final = (
-        new_versions_final.withColumn(
+        new_versions.withColumn(
             "next_effective_start_date",
             lead("effective_start_date").over(version_window)
         )
