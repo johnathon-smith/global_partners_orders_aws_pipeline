@@ -47,8 +47,6 @@ The final system includes:
 * [CI/CD Implementation](#cicd-implementation)
 * [Repository Structure](#repository-structure)
 * [Key Engineering Decisions](#key-engineering-decisions)
-* [Screenshots](#screenshots)
-* [How to Run Locally](#how-to-run-locally)
 * [Security Notes](#security-notes)
 * [Interview Talking Points](#interview-talking-points)
 * [Future Improvements](#future-improvements)
@@ -368,7 +366,7 @@ Layer summary:
 
 ## Refined Data Model
 
-![Refined Data Model](docs/images/data-model/s3-data-lake-refined-layer.png)
+![Refined Data Model](docs/images/s3/s3-data-lake-refined-layer.png)
 
 The refined layer contains one main fact table and four supporting dimension/detail tables.
 
