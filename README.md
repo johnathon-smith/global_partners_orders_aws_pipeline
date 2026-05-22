@@ -368,7 +368,7 @@ Layer summary:
 
 ## Refined Data Model
 
-![Refined Data Model](docs/images/data-model/refined-data-model.png)
+![Refined Data Model](docs/images/data-model/s3-data-lake-refined-layer.png)
 
 The refined layer contains one main fact table and four supporting dimension/detail tables.
 
@@ -568,7 +568,7 @@ order_id + lineitem_id + option_group_name + option_name
 
 ## Curated Analytics Layer
 
-![Curated Layer](docs/images/s3/curated-delta-tables.png)
+![Curated Layer](docs/images/s3/s3-data-lake-curated-layer.png)
 
 The curated layer contains six dashboard-ready analytical Delta tables.
 
@@ -863,8 +863,6 @@ Dashboard screenshots:
 ---
 
 ## Observability and Alerting
-
-![Observability Architecture](docs/images/observability/observability-architecture.png)
 
 The project includes a production-aware observability layer.
 
